@@ -1,0 +1,18 @@
+{
+  "name": "lol-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bin/www",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node bin/www"
+  },
+  "author": "buchuitoudegou",
+  "license": "ISC",
+  "dependencies": {
+    "esm": "^3.0.84",
+    "koa": "^2.6.1",
+    "koa-router": "^7.4.0",
+    "mysql": "^2.16.0"
+  }
+}

@@ -12,6 +12,7 @@
   "dependencies": {
     "esm": "^3.0.84",
     "koa": "^2.6.1",
+    "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "mysql": "^2.16.0"
   }

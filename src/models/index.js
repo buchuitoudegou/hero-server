@@ -91,8 +91,64 @@ class Model {
         } else {
           res('添加用户成功');
         }
-      })
+      });
     }).catch((error) => { console.log(error); });
+  }
+  queryUserDoc({ username }) {
+    const sql = `
+  use hero;
+  select * from userdoc
+  where userdoc.username = ?
+  ;`;
+    const values = [username];
+    return new Promise((res, rej) => {
+      this.db.query(sql, values, (error, rows) => {
+        if (error) {
+          console.log(error);
+          rej('查询用户收藏失败');
+        } else {
+          res(rows[1]);
+        }
+      });
+    }).catch((error) => { console.log(error); });
+  }
+  addDoc({ username, hid}) {
+    const sql = `
+  use hero;
+  insert into
+    userdoc(username, hid)
+  values
+    (?, ?)
+  ;`;
+    const values = [username, hid];
+    return new Promise((res, rej) => {
+      this.db.query(sql, values, (error, rows) => {
+        if (error) {
+          console.log(error);
+          rej('收藏失败');
+        } else {
+          res('收藏成功');
+        }
+      }); 
+    }).catch(error => console.log(error));
+  }
+  deleteDoc({ username, hid}) {
+    const sql = `
+  use hero;
+  delete from userdoc
+  where userdoc.username = ? and userdoc.hid = ?
+  ;`;
+    const values = [username, hid];
+    return new Promise((res, rej) => {
+      this.db.query(sql, values, (error, rows) => {
+        if (error) {
+          console.log(error);
+          rej('收藏夹删除失败');
+        } else {
+          res('收藏成功');
+        }
+      }).catch(error => console.log(error));
+    })
   }
 }
 

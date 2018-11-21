@@ -66,7 +66,7 @@ router
     };
   }
 })
-.post('/register', async (ctx) => {
+.post('/user/register', async (ctx) => {
   try {
     if (!ctx.request.body.username || !ctx.request.body.password) {
       throw new String('register fail');
@@ -98,7 +98,7 @@ router
     };
   }
 })
-.put('/login', async (ctx) => {
+.put('/user/login', async (ctx) => {
   try {
     if (!ctx.request.body.username || !ctx.request.body.password) {
       throw 'login fail';
@@ -130,9 +130,63 @@ router
     }
   } catch (error) {
     console.log(error);
-    ctx.status = 400;
+    ctx.status = 500;
     ctx.body = {
       status: 'INTERNAL ERROR',
+      msg: 'fail'
+    };
+  }
+})
+.get('/user/:username/document', (ctx) => {
+  try {
+    const username = ctx.params.username;
+    if (username.split(' ').length > 1) {
+      throw 'invalid username';
+    } else {
+      const result = await model.queryUserDoc({ username: username });
+      ctx.status = 200;
+      ctx.body = {
+        status: 'OK',
+        msg: '查询用户收藏成功',
+        data: result
+      };
+    }
+  } catch (error) {
+    console.log(error);
+    ctx.status = 400;
+    ctx.body = {
+      status: 'QUERY_ERROR',
+      msg: '查询用户收藏失败'
+    }
+  }
+})
+.post('/user/document', (ctx) => {
+  try {
+    const body = ctx.request.body;
+    if (body.username.split(' ').length > 1 || body.hid.split(' ').length > 1) {
+      throw 'invalid username or hid';
+    } else {
+      if (body.op === 'delete') {
+        await model.deleteDoc({ username: body.username, hid: body.hid });
+        ctx.status = 200;
+        ctx.body = {
+          status: 'OK',
+          msg: '删除收藏成功'
+        };
+      } else {
+        await model.addDoc({ username: username, hid: body.hid });
+        ctx.status = 200;
+        ctx.body = {
+          status: 'OK',
+          msg: '添加收藏成功'
+        };
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    ctx.status = 500;
+    ctx.body = {
+      status: 'INTERNAL_ERROR',
       msg: 'fail'
     };
   }

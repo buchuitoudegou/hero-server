@@ -100,6 +100,7 @@ class Model {
   select * from userdoc
   where userdoc.username = ?
   ;`;
+    //console.log(username);
     const values = [username];
     return new Promise((res, rej) => {
       this.db.query(sql, values, (error, rows) => {
@@ -147,8 +148,8 @@ class Model {
         } else {
           res('收藏成功');
         }
-      }).catch(error => console.log(error));
-    })
+      });
+    }).catch(error => console.log(error));
   }
 }
 

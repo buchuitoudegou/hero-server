@@ -137,9 +137,11 @@ router
     };
   }
 })
-.get('/user/:username/document', (ctx) => {
+.get('/user/:username/document', async (ctx) => {
   try {
+    //console.log(ctx.url);
     const username = ctx.params.username;
+    //console.log(ctx.params);
     if (username.split(' ').length > 1) {
       throw 'invalid username';
     } else {
@@ -160,7 +162,7 @@ router
     }
   }
 })
-.post('/user/document', (ctx) => {
+.post('/user/document', async (ctx) => {
   try {
     const body = ctx.request.body;
     if (body.username.split(' ').length > 1 || body.hid.split(' ').length > 1) {
@@ -174,7 +176,7 @@ router
           msg: '删除收藏成功'
         };
       } else {
-        await model.addDoc({ username: username, hid: body.hid });
+        await model.addDoc({ username: body.username, hid: body.hid });
         ctx.status = 200;
         ctx.body = {
           status: 'OK',

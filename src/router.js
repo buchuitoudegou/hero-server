@@ -192,6 +192,63 @@ router
       msg: 'fail'
     };
   }
+})
+.get(`/item/:iid`, async (ctx) => {
+  try {
+    const iid = ctx.params.iid;
+    if (iid.split(' ').length > 1) {
+      throw 'invalid iid';
+    }
+    const result = await model.queryItem({ iid: iid });
+    ctx.status = 200;
+    ctx.body = {
+      status: 'OK',
+      msg: '查询项目成功',
+      data: result
+    };
+  } catch (error) {
+    console.log(error);
+    ctx.status = 400;
+    ctx.body = {
+      status: 'QUERY ERROR',
+      msg: 'fail'
+    };
+  }
+})
+.post(`/item`, async (ctx) => {
+  const body = ctx.request.body;
+  try {
+    body.iid = String(Date.parse(new Date()));
+    const result = await model.addItem(body);
+    ctx.status = 200;
+    ctx.body = {
+      status: 'OK',
+      msg: '加入项目成功'
+    }
+  } catch (error) {
+    console.log(error);
+    ctx.status = 400;
+    ctx.body = {
+      status: 'QUERY ERROR',
+      msg: 'fail'
+    }
+  }
+})
+.delete(`/item/:iid`, async (ctx) => {
+  try {
+    const iid = ctx.params.iid;
+    const result = await model.deleteItem({ iid: iid});
+    ctx.status = 200;
+    ctx.body = {
+      status: 'OK',
+      msg: '删除项目成功'
+    };
+  } catch (error) {
+    ctx.status = 400;
+    ctx.body = {
+      status: 'QUERY FAIL',
+      msg: '删除项目失败'
+    }
+  }
 });
-
 export default router;

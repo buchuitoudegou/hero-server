@@ -133,7 +133,7 @@ class Model {
       }); 
     }).catch(error => console.log(error));
   }
-  deleteDoc({ username, hid}) {
+  deleteDoc({ username, hid }) {
     const sql = `
   use hero;
   delete from userdoc
@@ -147,6 +147,60 @@ class Model {
           rej('收藏夹删除失败');
         } else {
           res('收藏成功');
+        }
+      });
+    }).catch(error => console.log(error));
+  }
+  queryItem({ iid }) {
+    const sql = `
+  use hero;
+  select * from itemtable
+  where itemtable.iid = ?
+  ;`;
+    const values = [iid];
+    return new Promise((res, rej) => {
+      this.db.query(sql, values, (error, rows) => {
+        if (error) {
+          console.log(error);
+          rej('查询项目失败');
+        } else {
+          res(rows[1]);
+        }
+      });
+    }).catch(error => console.log(error));
+  }
+  addItem({ username, iid, iname, tag, stime, etime, rschedule, unit, rtotal, icheck }) {
+    const sql = `
+  use hero;
+  insert into itemtable(username, iid, iname, tag, stime, etime, rschedule, unit, rtotal, icheck)
+  value(?,?,?,?,?,?,?,?,?,?)
+  ;`;
+    const value = [username, iid, iname, tag, stime, etime, rschedule, unit, rtotal, icheck];
+    return new Promise((res, rej) => {
+      this.db.query(sql, value, (error, rows) => {
+        if (error) {
+          console.log(error);
+          rej('加入新项目失败');
+        } else {
+          res('加入新项目成功');
+        }
+      });
+    }).catch(error => console.log(error));
+  }
+  deleteItem({ iid }) {
+    const sql = `
+  use hero;
+  delete from itemtable
+  where itemtable.iid = ?
+  ;`;
+    const value = [iid];
+    return new Promise((res, rej) => {
+      this.db.query(sql, value, (error, rows) => {
+        if (error) {
+          console.log(error);
+          rej('删除项目失败');
+        } else {
+          res('删除项目成功');
         }
       });
     }).catch(error => console.log(error));

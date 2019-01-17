@@ -250,5 +250,23 @@ router
       msg: '删除项目失败'
     }
   }
+})
+.get(`/item/user/:username`, async (ctx) => {
+  try {
+    const username = ctx.params.username;
+    const result = await model.queryAllItem({ username: username });
+    ctx.status = 200;
+    ctx.body = {
+      status: 'OK',
+      msg: '查询成功',
+      data: result
+    };
+  } catch (error) {
+    ctx.status = 400;
+    ctx.body = {
+      status: 'QUERY ERROR',
+      msg: '查询失败'
+    }
+  }
 });
 export default router;

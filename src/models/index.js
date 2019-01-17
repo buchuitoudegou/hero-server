@@ -205,6 +205,24 @@ class Model {
       });
     }).catch(error => console.log(error));
   }
+  queryAllItem({ username }) {
+    const sql = `
+  use hero;
+  select * from itemtable
+  where itemtable.username = ?
+  ;`;
+    const value = [username];
+    return new Promise((res, rej) => {
+      this.db.query(sql, value, (error, rows) => {
+        if (error) {
+          console.log(error);
+          rej('查询所有项目失败');
+        } else {
+          res(rows[1]);
+        }
+      });
+    }).catch(error => console.log(error));
+  }
 }
 
 export const model = new Model(db);

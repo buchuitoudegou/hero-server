@@ -20,5 +20,5 @@ prefix: /api
 + <font color="green">GET</font> `/item/:iid` get the detail of one project
 + <font color="green">GET</font> `/item/user/:username` get all projects of a user
 + <font color="blue">POST</font> `/item` add a new project
-	+ request body: { "username": "abc", "iname": "这是第三个项目", "tag": "标签2", "stime": "2017-01-17", "etime": "2017-01-18", "rschedule": 1, "unit": "章", "rtotal": 190, "icheck": 0 } which are represent the username, the name of projects, tag, start, end, whether need to record the schedule, the company of the project, the amount of the project and whether need to warn user. 
+	+ request body: { "username": "abc", "iname": "这是第三个项目", "tag": "标签2", "stime": "2017-01-17", "etime": "2017-01-18", "rschedule": 1, "unit": "章", "rtotal": 190, "icheck": 0 } which are represent the username, the name of projects, tag, start, end, whether need to record the schedule, the company of the project, the amount of the project and whether need to warn user respectively. 
 + <font color="red">DELETE</font> `/item/:iid` delete a project
